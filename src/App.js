@@ -1,15 +1,21 @@
 import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AppLayout } from "./components/AppLayout";
 import { LoginForm } from "./components/LoginForm";
+import { AuthRoute } from "./components/AuthRoute";
 
 function App() {
-  const isLoggedIn = false;
-
   return (
-    <>
-      {isLoggedIn && <AppLayout />}
-      {!isLoggedIn && <LoginForm />}
-    </>
+    <Router>
+      <Switch>
+        <AuthRoute path="/home">
+          <AppLayout />
+        </AuthRoute>
+        <Route path="/login">
+          <LoginForm />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

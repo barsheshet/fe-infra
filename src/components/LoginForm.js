@@ -1,12 +1,23 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import { Form, Input, Button, Checkbox } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { useMutation } from "react-query";
+import { useHistory, useLocation } from "react-router-dom";
+import { Form, Input, Button } from "antd";
+import { MailOutlined, LockOutlined } from "@ant-design/icons";
+import { login } from "../api";
 
-export const LoginForm = (props) => {
+export const LoginForm = () => {
+  let history = useHistory();
+  let location = useLocation();
+  let { from } = location.state || { from: { pathname: "/" } };
+
+  const [mutate, { isLoading, data, error }] = useMutation(login);
+
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    mutate(values);
   };
+
+  if (data) return JSON.stringify(data);
 
   return (
     <Form
@@ -20,18 +31,15 @@ export const LoginForm = (props) => {
       onFinish={onFinish}
     >
       <Form.Item
-        name="username"
+        name="email"
         rules={[
           {
             required: true,
-            message: "Please input your Username!",
+            message: "Please input your Email!",
           },
         ]}
       >
-        <Input
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Username"
-        />
+        <Input prefix={<MailOutlined />} placeholder="Email" />
       </Form.Item>
       <Form.Item
         name="password"
@@ -43,26 +51,29 @@ export const LoginForm = (props) => {
         ]}
       >
         <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
+          prefix={<LockOutlined />}
           type="password"
           placeholder="Password"
         />
       </Form.Item>
       <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-
-        <a css={{ float: "right" }} href="/">
-          Forgot password
-        </a>
+        {error.message} {error.code}
       </Form.Item>
-
       <Form.Item>
-        <Button css={{ width: "100%" }} type="primary" htmlType="submit">
+        <Button
+          css={{ width: "100%" }}
+          type="primary"
+          htmlType="submit"
+          loading={isLoading}
+        >
           Log in
         </Button>
         Or <a href="/">register now!</a>
+      </Form.Item>
+      <Form.Item>
+        <a css={{ float: "right" }} href="/">
+          Forgot password
+        </a>
       </Form.Item>
     </Form>
   );
