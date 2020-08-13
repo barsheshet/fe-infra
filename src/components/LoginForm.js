@@ -1,24 +1,9 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import { useMutation } from "react-query";
-import { useHistory, useLocation } from "react-router-dom";
 import { Form, Input, Button } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
-import { login } from "../api";
 
-export const LoginForm = () => {
-  let history = useHistory();
-  let location = useLocation();
-  let { from } = location.state || { from: { pathname: "/" } };
-
-  const [mutate, { isLoading, data, error }] = useMutation(login);
-
-  const onFinish = (values) => {
-    mutate(values);
-  };
-
-  if (data) return JSON.stringify(data);
-
+export const LoginForm = (props) => {
   return (
     <Form
       name="normal_login"
@@ -28,7 +13,7 @@ export const LoginForm = () => {
       initialValues={{
         remember: true,
       }}
-      onFinish={onFinish}
+      onFinish={props.onSubmit}
     >
       <Form.Item
         name="email"
@@ -56,22 +41,23 @@ export const LoginForm = () => {
           placeholder="Password"
         />
       </Form.Item>
-      <Form.Item>
-        {error.message} {error.code}
-      </Form.Item>
+      <Form.Item>{props.errorMessage}</Form.Item>
       <Form.Item>
         <Button
           css={{ width: "100%" }}
           type="primary"
           htmlType="submit"
-          loading={isLoading}
+          loading={props.isLoading}
         >
           Log in
         </Button>
-        Or <a href="/">register now!</a>
+        Or{" "}
+        <a href="/" onClick={props.onRegisterClick}>
+          register now!
+        </a>
       </Form.Item>
       <Form.Item>
-        <a css={{ float: "right" }} href="/">
+        <a css={{ float: "right" }} href="/" onClick={props.onForgotClick}>
           Forgot password
         </a>
       </Form.Item>

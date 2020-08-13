@@ -6,18 +6,20 @@ export const AuthRoute = ({ children, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={({ location }) =>
-        isAuthenticated ? (
-          children
-        ) : (
+      render={({ location }) => {
+        console.log(location);
+        if (isAuthenticated) {
+          return children;
+        }
+        return (
           <Redirect
             to={{
               pathname: "/login",
               state: { from: location },
             }}
           />
-        )
-      }
+        );
+      }}
     />
   );
 };
