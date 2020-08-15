@@ -6,12 +6,11 @@ import * as serviceWorker from "./serviceWorker";
 import { UserContextProvider } from "./context/user-context";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <UserContextProvider>
-      <App />
-    </UserContextProvider>
-    ,
-  </React.StrictMode>,
+  //<React.StrictMode>
+  <UserContextProvider>
+    <App />
+  </UserContextProvider>,
+  //</React.StrictMode>,
   document.getElementById("root")
 );
 

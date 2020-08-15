@@ -20,7 +20,7 @@ export const Login = () => {
     history.replace(state.from);
   };
 
-  const [user, dispatch] = useContext(UserContext);
+  const dispatch = useContext(UserContext)[1];
   const [login, { isLoading, error }] = useMutation(loginMutation, {
     onSuccess: onLoginSuccess,
   });
