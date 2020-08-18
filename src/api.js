@@ -11,8 +11,9 @@ async function api(...args) {
   throw error;
 }
 
-export const login = (creds) =>
-  api(`${BASE_URL}/account/login`, {
+export const login = (creds) => {
+  const path = creds.verificationCode ? "login-two-fa" : "login";
+  return api(`${BASE_URL}/account/${path}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,6 +21,7 @@ export const login = (creds) =>
     body: JSON.stringify(creds),
     credentials: "include",
   });
+};
 
 export const refreshToken = () =>
   api(`${BASE_URL}/account/refresh-token`, {

@@ -18,6 +18,7 @@ export const LoginForm = (props) => {
       >
         <Form.Item
           name="email"
+          hidden={props.step === 2}
           rules={[
             {
               required: true,
@@ -29,6 +30,7 @@ export const LoginForm = (props) => {
         </Form.Item>
         <Form.Item
           name="password"
+          hidden={props.step === 2}
           rules={[
             {
               required: true,
@@ -40,6 +42,22 @@ export const LoginForm = (props) => {
             prefix={<LockOutlined />}
             type="password"
             placeholder="Password"
+          />
+        </Form.Item>
+        <Form.Item
+          name="verificationCode"
+          hidden={props.step === 1}
+          rules={[
+            {
+              required: props.step === 2,
+              message: "Please input verification code!",
+            },
+          ]}
+        >
+          <Input
+            prefix={<LockOutlined />}
+            type="text"
+            placeholder="Verification Code"
           />
         </Form.Item>
         <Form.Item>
