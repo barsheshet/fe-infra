@@ -1,14 +1,18 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Login } from "./screens/Login";
+import { Register } from "./screens/Register";
 import { Main } from "./screens/Main";
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/login">
+        <Route path="/login" exact>
           <Login />
+        </Route>
+        <Route path="/register" exact>
+          <Register />
         </Route>
         <Route path="/">
           <Main />

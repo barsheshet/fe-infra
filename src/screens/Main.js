@@ -21,7 +21,6 @@ export const Main = () => {
     dispatch({ type: actions.SET_JWT, jwt: data.jwt });
     setAutoRefresh(null);
     const expiration = getExpiration(data.jwt);
-    console.log(expiration);
     setAutoRefresh(setTimeout(refreshToken, expiration - 5000));
   };
 

@@ -1,7 +1,9 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import { Form, Input, Button, Card, Alert } from "antd";
+import { Form, Input, Button, Card, Alert, Typography } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
+
+const { Link } = Typography;
 
 export const LoginForm = (props) => {
   return (
@@ -20,6 +22,10 @@ export const LoginForm = (props) => {
           name="email"
           hidden={props.step === 2}
           rules={[
+            {
+              type: "email",
+              message: "The input is not valid Email!",
+            },
             {
               required: true,
               message: "Please input your Email!",
@@ -74,15 +80,12 @@ export const LoginForm = (props) => {
           >
             Log in
           </Button>
-          Or{" "}
-          <a href="/" onClick={props.onRegisterClick}>
-            register now!
-          </a>
+          Or <Link onClick={props.onRegisterClick}>register now!</Link>
         </Form.Item>
         <Form.Item>
-          <a css={{ float: "right" }} href="/" onClick={props.onForgotClick}>
+          <Link css={{ float: "right" }} onClick={props.onForgotClick}>
             Forgot password
-          </a>
+          </Link>
         </Form.Item>
       </Form>
     </Card>

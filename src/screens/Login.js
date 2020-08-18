@@ -30,9 +30,7 @@ export const Login = () => {
     onSuccess: onLoginSuccess,
   });
 
-  const onFinish = (creds) => {
-    login(creds);
-  };
+  const onRegisterClick = () => history.push("register");
 
   return (
     <Layout
@@ -47,10 +45,10 @@ export const Login = () => {
           <Col span={6}>
             <LoginForm
               step={step}
-              onSubmit={onFinish}
+              onSubmit={login}
               errorMessage={error?.message}
               isLoading={isLoading}
-              onRegisterClick={() => true}
+              onRegisterClick={onRegisterClick}
               onForgotClick={() => true}
             />
           </Col>
