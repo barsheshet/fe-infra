@@ -1,7 +1,8 @@
-import React from "react";
-import { Form, Input, Select, Checkbox, Button, Card } from "antd";
-
-const { Option } = Select;
+/** @jsx jsx */
+import { jsx } from "@emotion/core";
+import { Form, Input, Select, Checkbox, Button, Card, Alert } from "antd";
+import * as owaspPasswordStrengthTest from "owasp-password-strength-test";
+import CountryCodes from "../metadata/CountryCodes.json";
 
 const formItemLayout = {
   labelCol: {
@@ -21,6 +22,7 @@ const formItemLayout = {
     },
   },
 };
+
 const tailFormItemLayout = {
   wrapperCol: {
     xs: {
@@ -35,33 +37,33 @@ const tailFormItemLayout = {
 };
 
 export const RegistrationForm = (props) => {
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
-  };
-
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       <Select
+        placeholder="Choose"
         style={{
-          width: 70,
+          width: 120,
         }}
-      >
-        <Option value="+86">+86</Option>
-        <Option value="+87">+87</Option>
-      </Select>
+        options={CountryCodes.map((c, i) => ({
+          key: i,
+          value: c.dial_code,
+          label: `${c.flag} (${c.dial_code})`,
+          name: c.name,
+        }))}
+        showSearch
+        optionFilterProp="name"
+      ></Select>
     </Form.Item>
   );
 
   return (
-    <Card title={"Register"}>
+    <Card css={{ width: 500 }} title={"Register"}>
       <Form
         {...formItemLayout}
         name="register"
-        onFinish={onFinish}
-        initialValues={{
-          prefix: "86",
-        }}
+        onFinish={props.onSubmit}
         scrollToFirstError
+        validateTrigger="onSubmit"
       >
         <Form.Item
           name="email"
@@ -88,7 +90,7 @@ export const RegistrationForm = (props) => {
           <Input />
         </Form.Item>
 
-        <Form.Item name="phone" label="Phone Number">
+        <Form.Item name="mobile" label="Mobile">
           <Input
             addonBefore={prefixSelector}
             style={{
@@ -105,8 +107,18 @@ export const RegistrationForm = (props) => {
               required: true,
               message: "Please input your password!",
             },
+            {
+              validator: (_, value) => {
+                if (value) {
+                  const strength = owaspPasswordStrengthTest.test(value);
+                  if (!strength.strong) {
+                    return Promise.reject(strength.errors[0]);
+                  }
+                }
+                return Promise.resolve();
+              },
+            },
           ]}
-          hasFeedback
         >
           <Input.Password />
         </Form.Item>
@@ -115,7 +127,6 @@ export const RegistrationForm = (props) => {
           name="confirm"
           label="Confirm Password"
           dependencies={["password"]}
-          hasFeedback
           rules={[
             {
               required: true,
@@ -154,8 +165,13 @@ export const RegistrationForm = (props) => {
             I have read the <a href="/">agreement</a>
           </Checkbox>
         </Form.Item>
+        {props.errorMessage && (
+          <Form.Item {...tailFormItemLayout}>
+            <Alert message={props.errorMessage} type="error" showIcon />
+          </Form.Item>
+        )}
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={props.isLoading}>
             Register
           </Button>
         </Form.Item>

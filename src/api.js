@@ -1,6 +1,6 @@
 const BASE_URL = "http://localhost:3000/api/v1";
 
-async function api(...args) {
+const api = async (...args) => {
   const res = await fetch(...args);
   const data = await res.json();
   if (res.ok) {
@@ -9,24 +9,28 @@ async function api(...args) {
   const error = new Error(data.message);
   error.code = data.statusCode;
   throw error;
-}
+};
 
-export const login = (creds) => {
-  const path = creds.verificationCode ? "login-two-fa" : "login";
-  return api(`${BASE_URL}/account/${path}`, {
+const post = (url, data) =>
+  api(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(creds),
+    body: JSON.stringify(data),
     credentials: "include",
   });
+
+const get = (url) =>
+  api(url, {
+    credentials: "include",
+  });
+
+export const login = (creds) => {
+  const path = creds.verificationCode ? "login-two-fa" : "login";
+  return post(`${BASE_URL}/account/${path}`, creds);
 };
 
-export const refreshToken = () =>
-  api(`${BASE_URL}/account/refresh-token`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-  });
+export const refreshToken = () => get(`${BASE_URL}/account/refresh-token`);
+
+export const signup = (creds) => post(`${BASE_URL}/account/signup`, creds);

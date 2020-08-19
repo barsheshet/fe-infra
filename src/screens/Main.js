@@ -11,7 +11,7 @@ const getExpiration = (jwt) => {
   return decoded.exp * 1000 - Date.now();
 };
 
-export const Main = () => {
+export function Main() {
   const [autoRefresh, setAutoRefresh] = useState(null);
   const location = useLocation();
   const history = useHistory();
@@ -50,7 +50,8 @@ export const Main = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // TODO: center spinner
   if (!user.jwt) return "Loading....";
 
   return <AppLayout />;
-};
+}

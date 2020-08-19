@@ -7,7 +7,7 @@ const { Link } = Typography;
 
 export const LoginForm = (props) => {
   return (
-    <Card title={"Login"}>
+    <Card css={{ minWidth: 350 }} title={"Login"}>
       <Form
         name="normal_login"
         css={{
@@ -17,6 +17,7 @@ export const LoginForm = (props) => {
           remember: true,
         }}
         onFinish={props.onSubmit}
+        validateTrigger="onSubmit"
       >
         <Form.Item
           name="email"
@@ -66,11 +67,13 @@ export const LoginForm = (props) => {
             placeholder="Verification Code"
           />
         </Form.Item>
-        <Form.Item>
-          {props.errorMessage && (
+
+        {props.errorMessage && (
+          <Form.Item>
             <Alert message={props.errorMessage} type="error" showIcon />
-          )}
-        </Form.Item>
+          </Form.Item>
+        )}
+
         <Form.Item>
           <Button
             css={{ width: "100%" }}
@@ -81,8 +84,6 @@ export const LoginForm = (props) => {
             Log in
           </Button>
           Or <Link onClick={props.onRegisterClick}>register now!</Link>
-        </Form.Item>
-        <Form.Item>
           <Link css={{ float: "right" }} onClick={props.onForgotClick}>
             Forgot password
           </Link>
