@@ -22,7 +22,7 @@
     "snyk": "^1.380.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "snyk test && react-scripts test",
     "eject": "react-scripts eject",
