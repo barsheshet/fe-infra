@@ -1,10 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+/** @jsx jsx */
+import { jsx } from "@emotion/core";
+import { useContext, useEffect, useState } from "react";
+import { Layout, Menu } from "antd";
 import * as jwtDecode from "jwt-decode";
 import { useMutation } from "react-query";
 import { UserContext, actions } from "../context/user-context";
 import { refreshToken as refreshTokenMutation } from "../api";
 import { useLocation, useHistory } from "react-router-dom";
-import { AppLayout } from "../components/AppLayout";
+import { TeamOutlined } from "@ant-design/icons";
+import { NavBar } from "../components/NavBar";
+
+const { Header, Content, Sider } = Layout;
 
 const getExpiration = (jwt) => {
   const decoded = jwtDecode(jwt);
@@ -53,5 +59,41 @@ export function Main() {
   // TODO: center spinner
   if (!user.jwt) return "Loading....";
 
-  return <AppLayout />;
+  return (
+    <Layout>
+      <Header css={{ position: "fixed", zIndex: 1, width: "100%" }}>
+        <NavBar
+          fullName={"User Name"}
+          modules={["Admin", "Foo", "Bar"]}
+          onSettingsClick={() => console.log("settings clicked!")}
+          onLogoutClick={() => console.log("logout clicked!")}
+        />
+      </Header>
+      <Layout>
+        <Sider
+          css={{
+            marginTop: 64,
+            overflow: "auto",
+            height: "100vh",
+            position: "fixed",
+            left: 0,
+          }}
+          breakpoint="lg"
+          collapsedWidth="0"
+        >
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={["4"]}>
+            <Menu.Item key="1" icon={<TeamOutlined />}>
+              Users
+            </Menu.Item>
+          </Menu>
+        </Sider>
+        <Content
+          css={{
+            marginLeft: 200,
+            marginTop: 64,
+          }}
+        ></Content>
+      </Layout>
+    </Layout>
+  );
 }
