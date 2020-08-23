@@ -1,14 +1,15 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
 import { useContext, useEffect, useState } from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Spin } from "antd";
 import * as jwtDecode from "jwt-decode";
 import { useMutation } from "react-query";
 import { UserContext, actions } from "../context/user-context";
 import { refreshToken as refreshTokenMutation } from "../api";
 import { useLocation, useHistory } from "react-router-dom";
-import { TeamOutlined } from "@ant-design/icons";
+import { TeamOutlined, LoadingOutlined } from "@ant-design/icons";
 import { NavBar } from "../components/NavBar";
+import { ViewportCenter } from "../components/ViewportCenter";
 
 const { Header, Content, Sider } = Layout;
 
@@ -56,8 +57,12 @@ export function Main() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // TODO: center spinner
-  if (!user.jwt) return "Loading....";
+  if (!user.jwt)
+    return (
+      <ViewportCenter>
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 36 }} spin />} />
+      </ViewportCenter>
+    );
 
   return (
     <Layout>
