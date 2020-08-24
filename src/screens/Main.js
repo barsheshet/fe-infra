@@ -5,7 +5,10 @@ import { Layout, Menu, Spin } from "antd";
 import * as jwtDecode from "jwt-decode";
 import { useMutation } from "react-query";
 import { UserContext, actions } from "../context/user-context";
-import { refreshToken as refreshTokenMutation } from "../api";
+import {
+  refreshToken as refreshTokenMutation,
+  logout as logoutMutation,
+} from "../api";
 import { useLocation, useHistory } from "react-router-dom";
 import { TeamOutlined, LoadingOutlined } from "@ant-design/icons";
 import { NavBar } from "../components/NavBar";
@@ -40,6 +43,14 @@ export function Main() {
     onError: onRefreshTokenError,
   });
 
+  const onLogoutSuccess = () => {
+    history.push("login");
+  };
+
+  const [logout] = useMutation(logoutMutation, {
+    onSuccess: onLogoutSuccess,
+  });
+
   useEffect(() => {
     if (!user.jwt) {
       refreshToken();
@@ -71,7 +82,7 @@ export function Main() {
           fullName={"User Name"}
           modules={["Admin", "Foo", "Bar"]}
           onSettingsClick={() => console.log("settings clicked!")}
-          onLogoutClick={() => console.log("logout clicked!")}
+          onLogoutClick={() => logout(user.jwt)}
         />
       </Header>
       <Layout>

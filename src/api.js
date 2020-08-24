@@ -2,35 +2,50 @@ const BASE_URL = "http://localhost:3000/api/v1";
 
 const api = async (...args) => {
   const res = await fetch(...args);
-  const data = await res.json();
+  let data = null;
+  const contantType = res.headers.get("Content-Type");
+  if (contantType && contantType.includes("application/json")) {
+    data = await res.json();
+  }
   if (res.ok) {
     return data;
+  } else {
+    const error = new Error(data?.message);
+    error.code = res.status;
+    throw error;
   }
-  const error = new Error(data.message);
-  error.code = data.statusCode;
-  throw error;
 };
 
-const post = (url, data) =>
-  api(url, {
+const post = ({ url, jwt, data }) => {
+  let headers = {};
+  if (data) {
+    headers["Content-Type"] = "application/json";
+  }
+  if (jwt) {
+    headers.Authorization = `Bearer ${jwt}`;
+  }
+  return api(url, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: headers,
     body: JSON.stringify(data),
     credentials: "include",
   });
+};
 
-const get = (url) =>
+const get = ({ url }) =>
   api(url, {
     credentials: "include",
   });
 
 export const login = (creds) => {
   const path = creds.verificationCode ? "login-two-fa" : "login";
-  return post(`${BASE_URL}/account/${path}`, creds);
+  return post({ url: `${BASE_URL}/account/${path}`, data: creds });
 };
 
-export const refreshToken = () => get(`${BASE_URL}/account/refresh-token`);
+export const refreshToken = () =>
+  get({ url: `${BASE_URL}/account/refresh-token` });
 
-export const signup = (creds) => post(`${BASE_URL}/account/signup`, creds);
+export const signup = (creds) =>
+  post({ url: `${BASE_URL}/account/signup`, data: creds });
+
+export const logout = (jwt) => post({ url: `${BASE_URL}/account/logout`, jwt });
