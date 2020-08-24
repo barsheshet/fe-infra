@@ -31,6 +31,7 @@ export const NavBar = (props) => {
             <Menu.Item onClick={props.onSettingsClick}>
               <SettingOutlined /> Settings
             </Menu.Item>
+
             <Menu.Item danger onClick={props.onLogoutClick}>
               <PoweroffOutlined /> Logout
             </Menu.Item>

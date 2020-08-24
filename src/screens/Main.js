@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
 import { useContext, useEffect, useState } from "react";
-import { Layout, Menu, Spin } from "antd";
+import { Layout, Menu, Spin, Modal } from "antd";
 import * as jwtDecode from "jwt-decode";
 import { useMutation } from "react-query";
 import { UserContext, actions } from "../context/user-context";
@@ -10,11 +10,16 @@ import {
   logout as logoutMutation,
 } from "../api";
 import { useLocation, useHistory } from "react-router-dom";
-import { TeamOutlined, LoadingOutlined } from "@ant-design/icons";
+import {
+  TeamOutlined,
+  LoadingOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import { NavBar } from "../components/NavBar";
 import { ViewportCenter } from "../components/ViewportCenter";
 
 const { Header, Content, Sider } = Layout;
+const { confirm } = Modal;
 
 const getExpiration = (jwt) => {
   const decoded = jwtDecode(jwt);
@@ -51,6 +56,24 @@ export function Main() {
     onSuccess: onLogoutSuccess,
   });
 
+  const showLogoutDialog = () => {
+    confirm({
+      title: "Do you want to log out all devices?",
+      icon: <ExclamationCircleOutlined />,
+      okText: "All devices",
+      okButtonProps: {
+        type: "default",
+      },
+      cancelText: "Only this device",
+      onOk() {
+        logout({ jwt: user.jwt, allDevices: true });
+      },
+      onCancel() {
+        logout({ jwt: user.jwt, allDevices: false });
+      },
+    });
+  };
+
   useEffect(() => {
     if (!user.jwt) {
       refreshToken();
@@ -82,7 +105,7 @@ export function Main() {
           fullName={"User Name"}
           modules={["Admin", "Foo", "Bar"]}
           onSettingsClick={() => console.log("settings clicked!")}
-          onLogoutClick={() => logout(user.jwt)}
+          onLogoutClick={showLogoutDialog}
         />
       </Header>
       <Layout>

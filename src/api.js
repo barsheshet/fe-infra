@@ -48,4 +48,9 @@ export const refreshToken = () =>
 export const signup = (creds) =>
   post({ url: `${BASE_URL}/account/signup`, data: creds });
 
-export const logout = (jwt) => post({ url: `${BASE_URL}/account/logout`, jwt });
+export const logout = (data) =>
+  post({
+    url: `${BASE_URL}/account/logout`,
+    jwt: data.jwt,
+    data: { allDevices: data.allDevices },
+  });
