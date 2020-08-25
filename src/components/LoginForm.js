@@ -13,9 +13,6 @@ export const LoginForm = (props) => {
         css={{
           width: "100%",
         }}
-        initialValues={{
-          remember: true,
-        }}
         onFinish={props.onSubmit}
         validateTrigger="onSubmit"
       >
@@ -33,7 +30,12 @@ export const LoginForm = (props) => {
             },
           ]}
         >
-          <Input prefix={<MailOutlined />} placeholder="Email" />
+          <Input
+            name="email"
+            type="text"
+            prefix={<MailOutlined />}
+            placeholder="Email"
+          />
         </Form.Item>
         <Form.Item
           name="password"
@@ -45,9 +47,10 @@ export const LoginForm = (props) => {
             },
           ]}
         >
-          <Input
+          <Input.Password
             prefix={<LockOutlined />}
             type="password"
+            name="password"
             placeholder="Password"
           />
         </Form.Item>
