@@ -54,3 +54,6 @@ export const logout = (data) =>
     jwt: data.jwt,
     data: { allDevices: data.allDevices },
   });
+
+export const verifyEmail = (token) =>
+  post({ url: `${BASE_URL}/account/verify-email`, data: { token } });

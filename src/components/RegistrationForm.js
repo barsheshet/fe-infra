@@ -82,11 +82,29 @@ export const RegistrationForm = (props) => {
           <Input />
         </Form.Item>
 
-        <Form.Item name="firstName" label="First Name">
+        <Form.Item
+          name="firstName"
+          label="First Name"
+          rules={[
+            {
+              required: true,
+              message: "Please input your First Name!",
+            },
+          ]}
+        >
           <Input />
         </Form.Item>
 
-        <Form.Item name="lastName" label="Last Name">
+        <Form.Item
+          name="lastName"
+          label="Last Name"
+          rules={[
+            {
+              required: true,
+              message: "Please input your First Name!",
+            },
+          ]}
+        >
           <Input />
         </Form.Item>
 
@@ -174,6 +192,9 @@ export const RegistrationForm = (props) => {
           <Button type="primary" htmlType="submit" loading={props.isLoading}>
             Register
           </Button>
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          Already have an account? <a href="/login">login</a>
         </Form.Item>
       </Form>
     </Card>

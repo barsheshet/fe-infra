@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
 import { useContext, useEffect, useState } from "react";
-import { Layout, Menu, Spin, Modal } from "antd";
+import { Layout, Menu, Modal } from "antd";
 import * as jwtDecode from "jwt-decode";
 import { useMutation } from "react-query";
 import { UserContext, actions } from "../context/user-context";
@@ -10,13 +10,9 @@ import {
   logout as logoutMutation,
 } from "../api";
 import { useLocation, useHistory } from "react-router-dom";
-import {
-  TeamOutlined,
-  LoadingOutlined,
-  ExclamationCircleOutlined,
-} from "@ant-design/icons";
+import { TeamOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { NavBar } from "../components/NavBar";
-import { ViewportCenter } from "../components/ViewportCenter";
+import { CenteredSpiner } from "../components/CenteredSpiner";
 
 const { Header, Content, Sider } = Layout;
 const { confirm } = Modal;
@@ -91,12 +87,9 @@ export function Main() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!user.jwt)
-    return (
-      <ViewportCenter>
-        <Spin indicator={<LoadingOutlined style={{ fontSize: 36 }} spin />} />
-      </ViewportCenter>
-    );
+  if (!user.jwt) {
+    return <CenteredSpiner />;
+  }
 
   return (
     <Layout>
