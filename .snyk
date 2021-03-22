@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.14.1
+version: v1.19.0
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   SNYK-JS-LODASH-590103:
@@ -11,3 +11,5 @@ patch:
   SNYK-JS-LODASH-567746:
     - react-scripts > html-webpack-plugin > lodash:
         patched: '2020-08-20T04:09:09.459Z'
+    - react-scripts > eslint-plugin-testing-library > @typescript-eslint/experimental-utils > @typescript-eslint/typescript-estree > lodash:
+        patched: '2021-03-22T05:54:33.080Z'
