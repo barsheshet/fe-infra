@@ -19,7 +19,7 @@
     "react-query": "^2.5.13",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
-    "snyk": "^1.380.0"
+    "snyk": "^1.465.0"
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",
