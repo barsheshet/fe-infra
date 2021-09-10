@@ -19,14 +19,15 @@
     "react-query": "^2.5.13",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
-    "snyk": "^1.667.0"
+    "snyk": "^1.704.0",
+    "@snyk/protect": "latest"
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "snyk test && react-scripts test",
     "eject": "react-scripts eject",
-    "snyk-protect": "snyk protect",
+    "snyk-protect": "snyk-protect",
     "prepare": "yarn run snyk-protect"
   },
   "eslintConfig": {
