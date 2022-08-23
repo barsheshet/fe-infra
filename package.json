@@ -7,8 +7,8 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "antd": "^4.5.2",
-    "husky": "^4.2.5",
+    "antd": "^4.17.0",
+    "husky": "^4.3.7",
     "immer": "^9.0.6",
     "jwt-decode": "^2.2.0",
     "lint-staged": "^10.2.11",
@@ -18,15 +18,16 @@
     "react-dom": "^16.13.1",
     "react-query": "^2.5.13",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.0",
-    "snyk": "^1.667.0"
+    "react-scripts": "5.0.0",
+    "snyk": "^1.685.0",
+    "@snyk/protect": "latest"
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "snyk test && react-scripts test",
     "eject": "react-scripts eject",
-    "snyk-protect": "snyk protect",
+    "snyk-protect": "snyk-protect",
     "prepare": "yarn run snyk-protect"
   },
   "eslintConfig": {
