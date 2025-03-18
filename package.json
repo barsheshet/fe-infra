@@ -5,7 +5,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
+    "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.5.2",
     "husky": "^4.2.5",
@@ -18,7 +18,7 @@
     "react-dom": "^16.13.1",
     "react-query": "^2.5.13",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.0",
+    "react-scripts": "5.0.0",
     "snyk": "^1.667.0"
   },
   "scripts": {
